@@ -11,3 +11,6 @@ export const missionExistsSql =
 
 export const postMissionToUserSql =
   "INSERT INTO my_mission (status, member_id, mission_id) VALUES (1,?,?);"
+
+export const missionIsChallengingSql =
+  "SELECT EXISTS (SELECT * FROM my_mission WHERE member_id = ? AND mission_id = ?) as missionExists;"

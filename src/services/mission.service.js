@@ -4,6 +4,7 @@ import { getMissionDTO, getMissionFromUserDTO } from "../dtos/mission.dto.js"
 import {
   getMissionDao,
   missionExists,
+  missionIsChallanging,
   postMissionDao,
   postMissionToUserDao,
 } from "../models/mission.dao.js"
@@ -28,6 +29,15 @@ export const postMissionToUserService = async (body) => {
   if ((await missionExists(body.mission_id)) == 0) {
     throw new BaseError(status.MISSION_NOT_EXIST)
   } else {
+    if (
+      (await missionIsChallanging({
+        member_id: body.member_id,
+        mission_id: body.mission_id,
+      })) == 1
+    ) {
+      throw new BaseError(status.MISSION_ALREADY_CHALLENGING)
+    }
+
     await postMissionToUserDao({
       member_id: body.member_id,
       mission_id: body.mission_id,

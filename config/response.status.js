@@ -79,6 +79,14 @@ export const status = {
     message: "이메일이 이미 존재합니다.",
   },
 
+  // mission err
+  MISSION_ALREADY_CHALLENGING: {
+    status: StatusCodes.BAD_REQUEST,
+    isSuccess: false,
+    code: "MISSION4001",
+    message: "이미 진행중인 미션입니다.",
+  },
+
   // data err
   DATA_NOT_EXIST: {
     status: StatusCodes.NOT_FOUND,

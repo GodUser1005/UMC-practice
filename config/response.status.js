@@ -87,6 +87,13 @@ export const status = {
     message: "DB에 없는 데이터입니다.",
   },
 
+  MISSION_NOT_EXIST: {
+    status: StatusCodes.NOT_FOUND,
+    isSuccess: false,
+    code: "DATA4002",
+    message: "미션이 존재하지 않거나 이미 종료된 미션입니다.",
+  },
+
   //sql err
   PARAMETER_IS_WRONG: {
     status: StatusCodes.BAD_REQUEST,

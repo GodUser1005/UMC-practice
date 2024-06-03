@@ -1,7 +1,12 @@
 import { BaseError } from "../../config/error.js"
 import { status } from "../../config/response.status.js"
-import { getMissionDTO } from "../dtos/mission.dto.js"
-import { getMissionDao, postMissionDao } from "../models/mission.dao.js"
+import { getMissionDTO, getMissionFromUserDTO } from "../dtos/mission.dto.js"
+import {
+  getMissionDao,
+  missionExists,
+  postMissionDao,
+  postMissionToUserDao,
+} from "../models/mission.dao.js"
 import { restaurantExists } from "../models/restaurant.dao.js"
 
 export const postMissionService = async (body) => {
@@ -16,5 +21,17 @@ export const postMissionService = async (body) => {
     })
 
     return getMissionDTO(await getMissionDao(missionId))
+  }
+}
+
+export const postMissionToUserService = async (body) => {
+  if ((await missionExists(body.mission_id)) == 0) {
+    throw new BaseError(status.MISSION_NOT_EXIST)
+  } else {
+    await postMissionToUserDao({
+      member_id: body.member_id,
+      mission_id: body.mission_id,
+    })
+    return getMissionFromUserDTO(await getMissionDao(body.mission_id))
   }
 }

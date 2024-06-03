@@ -8,3 +8,13 @@ export const getMissionDTO = (mission) => {
     due_date: mission.due_date,
   }
 }
+
+export const getMissionFromUserDTO = (mission) => {
+  return {
+    message: "아래의 미션을 도전합니다!",
+    mission_id: mission.id,
+    price: mission.price,
+    point: mission.point,
+    due_date: mission.due_date,
+  }
+}

@@ -1,7 +1,12 @@
 import { pool } from "../../config/db.config.js"
 import { BaseError } from "../../config/error.js"
 import { status } from "../../config/response.status.js"
-import { getMissionSql, postMissionSql } from "./mission.sql.js"
+import {
+  getMissionSql,
+  missionExistsSql,
+  postMissionSql,
+  postMissionToUserSql,
+} from "./mission.sql.js"
 
 export const postMissionDao = async (mission_data) => {
   try {
@@ -26,6 +31,28 @@ export const getMissionDao = async (mission_id) => {
 
     conn.release()
     return result[0]
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG)
+  }
+}
+
+export const missionExists = async (mission_id) => {
+  try {
+    const conn = await pool.getConnection()
+    const [result] = await conn.query(missionExistsSql, mission_id)
+
+    conn.release()
+    return result[0].missionExists
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG)
+  }
+}
+
+export const postMissionToUserDao = async (data) => {
+  try {
+    const conn = await pool.getConnection()
+    await conn.query(postMissionToUserSql, [data.member_id, data.mission_id])
+    conn.release()
   } catch (err) {
     throw new BaseError(status.PARAMETER_IS_WRONG)
   }

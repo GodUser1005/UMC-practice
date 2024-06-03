@@ -59,7 +59,7 @@ export const addReview = async (data) => {
       data.restaurant_id,
     ])
     conn.release()
-    return "리뷰 작성해주셔서 감사합니다."
+    return result[0].insertId
   } catch (err) {
     throw new BaseError(status.PARAMETER_IS_WRONG)
   }

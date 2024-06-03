@@ -1,6 +1,6 @@
 import { BaseError } from "../../config/error.js"
 import { status } from "../../config/response.status.js"
-import { getRestaurantDTO } from "../dtos/restaurant.dto.js"
+import { getRestaurantDTO, getReviewIdDTO } from "../dtos/restaurant.dto.js"
 import {
   addReview,
   insertRestaurant,
@@ -25,11 +25,13 @@ export const createReview = async (body) => {
   if (restaurantExsits == 0) {
     throw new BaseError(status.DATA_NOT_EXIST)
   } else {
-    return await addReview({
-      review_text: body.review_text,
-      score: body.score,
-      member_id: body.member_id,
-      restaurant_id: body.restaurant_id,
-    })
+    return getReviewIdDTO(
+      await addReview({
+        review_text: body.review_text,
+        score: body.score,
+        member_id: body.member_id,
+        restaurant_id: body.restaurant_id,
+      }),
+    )
   }
 }

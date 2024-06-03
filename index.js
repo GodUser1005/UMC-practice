@@ -10,6 +10,7 @@ import cors from "cors"
 import { specs } from "./config/swagger.config.js"
 import SwaggerUi from "swagger-ui-express"
 import dotenv from "dotenv"
+import { missionRouter } from "./src/routes/mission.route.js"
 
 dotenv.config()
 
@@ -40,6 +41,9 @@ app.use("/user", userRouter)
 // router for restaurant
 app.use("/restaurants", restaurantRouter)
 
+// router for mission
+app.use("/missions", missionRouter)
+
 // app.use((req,res,next) => {
 //   const err = new BaseError(status.NOT_FOUND);
 //   next(err);
@@ -51,6 +55,7 @@ app.use((err, req, res, next) => {
   // 개발환경이면 에러를 출력하고 아니면 출력하지 않기
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {}
   res.status(err.data.status).send(response(err.data))
+  //console.log(response(err.data))
 })
 
 app.listen(app.get("port"), () => {
